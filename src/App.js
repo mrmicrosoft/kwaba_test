@@ -43,12 +43,14 @@ function Page1() {
 
                 <div className="block-t1">
                     <div className="label">How much is your rent request amount?</div>
-                    <input type="text" className="input-t1 rent-price" placeholder="Amount"/>
+                    <input type="text" className="input-t1 rent-price" placeholder="Amount" 
+                        onInput={(e) => {formatInput(e.target)}}/>
                 </div>
 
                 <div className="block-t1">
                     <div className="label">How much do you earn monthly?</div>
-                    <input type="text" className="input-t1 wages" placeholder="Amount"/>
+                    <input type="text" className="input-t1 wages" placeholder="Amount"
+                        onInput={(e) => {formatInput(e.target)}}/>
                 </div>
 
                 <div className="block-t1">
@@ -77,7 +79,8 @@ function Page2({data}) {
                     <div className="label">How much is your rent request amount?</div>
                     <div className="input-holder">
                         <div class="f-label">Amount</div>
-                        <input type="text" className="input-t1 amount" placeholder="Amount"/>
+                        <input type="text" className="input-t1 amount" placeholder="Amount"
+                            onInput={(e) => {formatInput(e.target)}}/>
                     </div>
                 </div>
             
@@ -111,6 +114,7 @@ function Page2({data}) {
 
 function formatMoney(amount){
     let str_val = String(amount);
+    str_val = str_val.replace(/\,/g, "");
     let tmp_str = "";
     let f_amount = "";
     let counter = 1;
@@ -126,6 +130,18 @@ function formatMoney(amount){
     return f_amount;
 };
 
+function formatInput(elm){
+    let value = elm.value.trim();
+    value = value.replace(/[^0-9]/g, "");
+    if(!value){
+        elm.value = "";
+        return;
+    }
+    value = parseInt(value);
+    value = formatMoney(value);
+    elm.value = "₦" + value;
+}
+
 function updatePage2(price, wages, selectedMonthIndex, payable){
     let request = document.querySelector("#content-holder .page2 .amount");
     options[0].value = "₦" + formatMoney(price);
@@ -137,17 +153,13 @@ function updatePage2(price, wages, selectedMonthIndex, payable){
     let page2MonthPlan = document.querySelector("#content-holder .page2 .pay-plan2");
     let page2RentRequest = document.querySelector("#content-holder .page2 .amount");
 
-    page2RentRequest.value = formatMoney(cashed_data.month_plan);
+    page2RentRequest.value = "₦" + formatMoney(cashed_data.month_plan);
     page2MonthPlan.selectedIndex = (cashed_data.month_count - 1);
 }
 
-function recalculatePrice(){
-    
-}
-
 export function btnAcceptClicked(){
-    let price = parseInt(document.querySelector("#content-holder .page1 .rent-price").value.trim());
-    let wages = document.querySelector("#content-holder .page1 .wages").value.trim();
+    let price = parseInt(document.querySelector("#content-holder .page1 .rent-price").value.trim().replace(/[^0-9]/g, ""));
+    let wages = document.querySelector("#content-holder .page1 .wages").value.trim().replace(/[^0-9]/g, "");
     let selectedMonthIndex = document.querySelector("#content-holder .page1 .pay-plan").selectedIndex;
 
     let fractions = price / (selectedMonthIndex+1)  //fraction payable per month
