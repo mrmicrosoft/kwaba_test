@@ -1,0 +1,62 @@
+#root{display:flex; flex-flow:row nowrap; justify-content:center;}
+
+#content-holder{
+    border:1px solid #e6e3e3; min-width:350px; max-width:500px; border-bottom:none; border-top:none;
+}
+
+/**Page Styles*/
+#content-holder .page{margin:0px 38px; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; }
+#content-holder .page .p-header{font-weight:bold; font-size:14px; color:#211f64; margin-top:8px;}
+#content-holder .page .p-content{margin:24px 8px 8px; min-height:200px;}
+#content-holder .page .p-content .title{color:#211f64; font-size:16px; font-weight:bold; margin-bottom:8px;}
+#content-holder .page .block-t1 .label{
+    font-size:13px; color:rgb(95, 95, 95); margin-top:20px;
+}
+#content-holder .page .select-t1, #content-holder .page2 .select-t1{
+    height:40px; border:1px solid #c9c9c9; border-radius:6px; margin:4px 0px 12px; font-size:14px;
+    outline:none; width:100%; padding-left:12px; font-size:12px;
+}
+
+
+/*----- Page1 Styles -----*/
+#content-holder .page1 .block-t1 .btn-t1{
+    height:40px; border:1px solid #c9c9c9; border-radius:6px; margin:4px 0px 12px; text-align:center;
+    line-height:38px; color:#c9c9c9; font-size:12px; font-weight:bold; cursor:pointer;
+}
+#content-holder .page1 .input-t1{
+    height:40px; border:1px solid #c9c9c9; border-radius:6px; margin:4px 0px 12px; font-size:14px;
+    outline:none; width:100%; padding-left:12px; font-size:12px;
+}
+#content-holder .page1 .input-t1:focus, #content-holder .page1 .select-t1:focus{border:1px solid #928ef7;}
+#content-holder .page1 .block-t1 .btn-t1-selected{color:#928ef7; background-color:white; border:1px solid #928ef7;}
+#content-holder .page1 .block-t1 .btn-t1:hover:not(.btn-t1-selected){
+    background-color:#928ef7; color:white;
+}
+#content-holder .page1 .btn-next{
+    height:40px; border:1px solid #c9c9c9; border-radius:6px; margin:4px 0px 12px; font-size:14px; font-size:12px;
+    background-color:#25dc99; text-align:center; line-height:38px; color:white; cursor:pointer;
+}
+
+
+/*----- Page2 Styles -----*/
+#content-holder .page2 .input-holder{position:relative;}
+#content-holder .page2 .input-holder .f-label{position:absolute; font-size:10px; left:12px; top:8px; color:rgba(0, 0, 0, .4);}
+#content-holder .page2 .input-t1{
+    height:48px; border:1px solid #c9c9c9; border-radius:6px; margin:4px 0px 12px; font-size:13px;
+    outline:none; width:100%; padding-left:12px; font-size:12px;
+}
+#content-holder .page2 .block-t1 .option-list{
+    min-height:100px; margin-top:5px; border-radius:10px; background-color:#eeecfc; margin-bottom:20px; padding-bottom:24px;
+    padding-top:8px;
+}
+#content-holder .page2 .block-t1 .option-list .li{
+    height:38px; font-size:11px; line-height:38px; overflow:hidden; margin:0px 16px; color:rgba(0, 0, 0, .7);
+    font-family:Verdana, Geneva, Tahoma, sans-serif; border-bottom:1px solid rgba(255, 255, 255, .6); padding-left:3px;
+    padding-right:3px;
+}
+#content-holder .page2 .block-t1 .option-list .li .left{float:left;}
+#content-holder .page2 .block-t1 .option-list .li .right{float:right; font-weight:bold; }
+#content-holder .page2 .btn-next{
+    height:46px; border:1px solid #c9c9c9; border-radius:6px; margin:4px 0px 12px; font-size:14px; font-size:12px;
+    background-color:#292769; text-align:center; line-height:44px; color:white; cursor:pointer;
+}
