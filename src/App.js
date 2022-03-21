@@ -27,7 +27,6 @@ const options = [
 
 let cashed_data = {"month_count":0, "month_plan":0}
 
-
 function Page1() {
     return (
         <div className="page page1">
