@@ -152,7 +152,7 @@ export function btnAcceptClicked(){
 
     let fractions = price / (selectedMonthIndex+1)  //fraction payable per month
     let interest = ((2/100) * price) * (selectedMonthIndex+1);  //interest per month
-    let payable = fractions + interest;
+    let payable = (Math.round((fractions + interest) * 100) / 100).toFixed(0);
 
     cashed_data.month_count = selectedMonthIndex+1;
     cashed_data.month_plan = price;
