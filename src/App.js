@@ -4,7 +4,7 @@ import { render } from "react-dom";
 
 const holder = (
     <React.StrictMode>
-        <div id="content-holder" callback={btnAcceptClicked}>
+        <div id="content-holder">
             <Page1  data="data"/>
         </div>
     </React.StrictMode>
@@ -21,8 +21,8 @@ const holder2 = (
 let plans = [];
 for(let i = 0; i < 12; i++){plans.push(i)}
 const options = [
-    {"name":"Pre-approved amount", "value":"₦200,000"}, {"name":"Monthly Payment", "value":"₦105,000"},
-    {"name":"Tenor", "value":"2 months"}
+    {"name":"Pre-approved amount", "value":"₦200,000", "index":1}, {"name":"Monthly Payment", "value":"₦105,000", "index":2},
+    {"name":"Tenor", "value":"2 months", "index":3}
 ]
 
 let cashed_data = {"month_count":0, "month_plan":0}
@@ -80,13 +80,16 @@ function Page2({data}) {
                     <div className="input-holder">
                         <div class="f-label">Amount</div>
                         <input type="text" className="input-t1 amount" placeholder="Amount"
-                            onInput={(e) => {formatInput(e.target)}}/>
+                            onInput={(e) => {
+                                formatInput(e.target);
+                                computeAndUpdatePayOption();
+                            }}/>
                     </div>
                 </div>
             
                 <div className="block-t1">
                     <div className="label">Monthly Payment Plan</div>
-                    <select className="select-t1 pay-plan2">
+                    <select className="select-t1 pay-plan2"  onChange={() => (computeAndUpdatePayOption())}>
                         {plans.map((v,i) => 
                             <option value={i+1}>{i+1} Month{(i>0)?"s":""}</option>
                         )}
@@ -95,12 +98,10 @@ function Page2({data}) {
 
                 <div className="block-t1">
                     <div className="label">Payment Option</div>
-                    <div className="option-list" onChange={(e) => {
-
-                    }}>
+                    <div className="option-list">
                         {options.map((v,i) => 
                             <div className="li">
-                                <span className="left">{v.name}</span><span className="right">{v.value}</span>
+                                <span className="left">{v.name}</span><span className={"right i" + v.index}>{v.value}</span>
                             </div>
                         )}
                     </div>
@@ -157,19 +158,47 @@ function updatePage2(price, wages, selectedMonthIndex, payable){
     page2MonthPlan.selectedIndex = (cashed_data.month_count - 1);
 }
 
-export function btnAcceptClicked(){
+function updatePaymentOption(){
+
+}
+
+function btnAcceptClicked(){
     let price = parseInt(document.querySelector("#content-holder .page1 .rent-price").value.trim().replace(/[^0-9]/g, ""));
     let wages = document.querySelector("#content-holder .page1 .wages").value.trim().replace(/[^0-9]/g, "");
     let selectedMonthIndex = document.querySelector("#content-holder .page1 .pay-plan").selectedIndex;
+    let monthCount = selectedMonthIndex + 1;
 
-    let fractions = price / (selectedMonthIndex+1)  //fraction payable per month
-    let interest = ((2/100) * price) * (selectedMonthIndex+1);  //interest per month
-    let payable = (Math.round((fractions + interest) * 100) / 100).toFixed(0);
+    let monthlyPay = computePayOption(price, monthCount)
 
-    cashed_data.month_count = selectedMonthIndex+1;
+    cashed_data.month_count = monthCount;
     cashed_data.month_plan = price;
 
-    updatePage2(updatePage2(price, wages, selectedMonthIndex, payable));
+    updatePage2(updatePage2(price, wages, selectedMonthIndex, monthlyPay));
+}
+
+function computeAndUpdatePayOption(){
+    let price = parseInt(document.querySelector("#content-holder .page2 .amount").value.trim().replace(/[^0-9]/g, ""));
+    let selectedMonthIndex = document.querySelector("#content-holder .page2 .pay-plan2").selectedIndex;
+
+    let payable = 0;
+
+    if(!price){
+        price = 0;
+    }else{
+        payable = computePayOption(price, selectedMonthIndex+1);
+    }
+    
+    (document.querySelector("#content-holder .page2 .block-t1 .option-list .i1")).innerHTML = "₦" + formatMoney(price);
+    (document.querySelector("#content-holder .page2 .block-t1 .option-list .i2")).innerHTML = "₦" + formatMoney(payable);
+    (document.querySelector("#content-holder .page2 .block-t1 .option-list .i3")).innerHTML = String(selectedMonthIndex + 1) + 
+        " month" + ((selectedMonthIndex > 0)?"s":"");
+}
+
+function computePayOption(price, numOfMonths){
+    let fractions = price / (numOfMonths)  //fraction payable per month
+    let interest = ((2/100) * price) * (numOfMonths);  //interest per month
+    let payable = (Math.round((fractions + interest) * 100) / 100).toFixed(0);
+    return payable;
 }
 
 render(holder, document.getElementById("root"));
